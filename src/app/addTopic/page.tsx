@@ -1,20 +1,22 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-export default function AddTopic() {
+import React, { useState } from 'react'
+
+export default function AddTopicPage() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const router = useRouter()
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!title || !description) {
-      alert('Title과 description를 입력해야합니다.')
+      alert('Title과 Description을 모두 입력하세요')
     }
     try {
       const res = await fetch('/api/topics', {
         method: 'POST',
         headers: {
-          'Content-type': 'application/json',
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ title, description }),
       })
@@ -22,7 +24,7 @@ export default function AddTopic() {
         router.push('/')
         router.refresh()
       } else {
-        throw new Error('Topic 생성에 실패했습니다.')
+        throw new Error('Topic 생성에 실패했습니다')
       }
     } catch (error) {
       console.log(error)
@@ -32,8 +34,8 @@ export default function AddTopic() {
   return (
     <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
       <input
-        className="border border-slate-500 p-4"
         type="text"
+        className="border border-slate-500 p-4"
         placeholder="Topic Title"
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setTitle(e.target.value)

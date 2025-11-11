@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'MongoDB CRUD',
-  description: 'Create,Read, Update, and Delete in MongoDB',
+  description: 'Create, Read, Update, and Delete in MongoDB',
 }
 
 export default function RootLayout({

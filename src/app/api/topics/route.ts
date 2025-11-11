@@ -1,5 +1,5 @@
-import Topic from '@/models/topic'
 import connectMongoDB from '@/libs/mongodb'
+import Topic from '@/models/topic'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -7,14 +7,12 @@ export async function POST(request: NextRequest) {
     const { title, description } = await request.json()
     if (!title || !description) {
       return NextResponse.json(
-        { message: 'Titile and description are required' },
+        { message: 'Title and description are required' },
         { status: 400 }
       )
     }
-
     await connectMongoDB()
     await Topic.create({ title, description })
-
     return NextResponse.json({ message: 'Topic created' }, { status: 201 })
   } catch (error) {
     console.error('Error in POST /api/topics', error)
