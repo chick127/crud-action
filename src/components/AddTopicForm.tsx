@@ -1,51 +1,48 @@
 'use client'
 
 import { createTopic } from '@/actions/topicActions'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
 
 export default function AddTopicForm() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const router = useRouter()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!title || !description) {
-      alert('Title and description are required')
-    }
+
     try {
       await createTopic(title, description)
-      router.push('/')
+      router.push('/') // 생성 후 메인 페이지로 이동
     } catch (error) {
-      console.log(error)
+      console.error('토픽 생성 중 오류:', error)
+      alert('토픽 생성 중 오류가 발생했습니다.')
     }
   }
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       <input
         className="border border-slate-500 p-4"
         type="text"
-        placeholder="Topic Title"
+        placeholder="토픽 제목"
         value={title}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setTitle(e.target.value)
-        }
+        onChange={(e) => setTitle(e.target.value)}
       />
+
       <textarea
         className="border border-slate-500 p-4 h-32"
-        placeholder="Topic description"
+        placeholder="토픽 설명"
         value={description}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-          setDescription(e.target.value)
-        }
+        onChange={(e) => setDescription(e.target.value)}
       />
+
       <button
-        className="bg-green-800 text-white font-bold px-6 py-3 w-fit rounded-md"
         type="submit"
+        className="bg-green-800 font-bold text-white py-3 px-6 w-fit rounded-md"
       >
-        Add Topic
+        토픽 추가하기
       </button>
     </form>
   )
